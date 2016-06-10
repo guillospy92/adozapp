@@ -1,0 +1,47 @@
+<div id="modal1" class="modal modal-fixed-footer">
+ {!!Form::open(array('route'=>'factura', 'method'=>'POST'))!!}
+    <div class="modal-content">
+      <h5>crear una nueva factura </h5>
+      <p>opcion para crear una factura rapida mente </p>
+
+<br><br>
+  
+    <div class="file-field input-field">
+      <div class="input-field col s6">
+          <i class="material-icons prefix">library_books</i>
+          {!!Form::text('nombre', null,['id'=>'icon_prefix','class'=>'validate'])!!}
+          <label for="icon_prefix">nombre de la factura</label>
+        </div>
+
+      <div class="input-field col s6">
+          
+         {!!Form::select('estado', array('opcion' => array('A' => 'activo','I'=>'inactivo'),),null,array('value'=>'selecione un estado para la factura'));!!}
+          
+        </div>
+       
+       
+        {!!Form::hidden('subarea_id', $archivo)!!}
+        {!!Form::hidden('cliente_id', $client)!!}
+        {!!Form::hidden('ano_id', $anomandado)!!}
+        {!!Form::hidden('mouth_id', $mesmandado)!!}
+
+
+
+      
+     
+    </div>
+    </div>
+    
+    
+   
+   
+    <div class="modal-footer">
+    
+    {!! Form::submit('crear factura',['class'=>'btn waves-effect waves-light','id'=>'boton','name'=>'action']) !!} 
+ 
+    
+  {!!Form::close()!!}
+  </div>
+   </div>
+
+   <div>sdfklsdfjslkjdf</div>
