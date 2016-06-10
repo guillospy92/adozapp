@@ -8,6 +8,8 @@ que aun le faltan archivos en x documentos esperado ademas de esto tiene un sist
 
 http://adozapp-appcreativas.rhcloud.com/auth/login 
 
+http://adozapp-appcreativas.rhcloud.com/usuarios   ruta de administrador
+
 
 usuario prueba@gmail.com
 password laraveleslaravel
