@@ -126,7 +126,7 @@ class HomeController extends Controller {
 					 $dato = Factura::name($request->get('name'))->orderBy('created_at', 'desc')
 													 ->where('subarea_id', $archivo)
 													 ->where('cliente_id', $client)->where('ano_id', $anomandado)
-													 ->where('mouth_id', $mesmandado)->paginate(20);
+													 ->where('mouth_id', $mesmandado)->paginate(12);
 					 if ($request->ajax()) {
 							 return Response()->json(view('paginacion')->with(compact('dato','archivo','client','anomandado','mesmandado'))->render());
 					 }
@@ -176,30 +176,25 @@ class HomeController extends Controller {
 	public function esperado(Request $request, $sub,$cliente,$ano,$mes,$factu){
 
     {
-    $areas1 = Subarea::with('clientes')->paginate(100)->where('area_id',1);
-    $areas2 = Subarea::with('clientes')->paginate(100)->where('area_id',2);
-    $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
-    $areas4 = Subarea::with('clientes')->paginate(100)->where('area_id',4);
-    $meses = Mouth::all();
-    $anos = Ano::all();
-    $anomandado = $ano;
-    $archivo = $sub;
-
-    $client = $cliente;
-    $mesmandado=$mes;
-    $fac= $factu;
-    $factura = Factura::all();
-    $esperado = Cliente::find($client)->esperados;
-    $documentos = Documento::where('cliente_id',$cliente)->where('factura_id',$fac)->where('subarea_id',$sub)->get();
-    //print_r($documentos);
-    //exit();
-
-    $docu = Documento::where('factura_id',$factu)->count();
+      $areas1 = Subarea::with('clientes')->paginate(100)->where('area_id',1);
+      $areas2 = Subarea::with('clientes')->paginate(100)->where('area_id',2);
+      $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
+      $areas4 = Subarea::with('clientes')->paginate(100)->where('area_id',4);
+      $meses = Mouth::all();
+      $anos = Ano::all();
+      $anomandado = $ano;
+      $archivo = $sub;
+      $client = $cliente;
+      $mesmandado=$mes;
+      $fac= $factu;
+      $factura = Factura::all();
+      $esperado = Cliente::find($client)->esperados;
+      $documentos = Documento::where('cliente_id',$cliente)->where('factura_id',$fac)->where('subarea_id',$sub)->get();
+      $docu = Documento::where('factura_id',$factu)->count();
 
 
-
-    return view('esperado',compact('dato','areas1','areas2','areas3','areas4',
-      'archivo','anos','anomandado','client','meses','mesmandado','factura','esperado','fac','documentos','docu'));
+      return view('esperado',compact('dato','areas1','areas2','areas3','areas4',
+        'archivo','anos','anomandado','client','meses','mesmandado','factura','esperado','fac','documentos','docu'));
   }
 
 

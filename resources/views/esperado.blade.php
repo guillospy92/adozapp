@@ -618,7 +618,7 @@
                 <ul>
                   @foreach($factura as $factu)
                     @if($factu->mouth_id == $mes->id && $factu->cliente_id == $cliente->id && $factu->ano_id == $ano->id && $factu->subarea_id == $subarea->id)
-                    <li><a ondblclick="location.href='{{route('admin',array($subarea->id,$cliente->id,$ano->id,$mes->id,$dat->id))}}'" href="#" onclick="return false">{{$factu->nombre}}</a></li>
+                    <li><a ondblclick="location.href='{{route('admin',array($subarea->id,$cliente->id,$ano->id,$mes->id,$factu->id))}}'" href="#" onclick="return false">{{$factu->nombre}}</a></li>
                     @endif
                   @endforeach
                 </ul>

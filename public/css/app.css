@@ -140,8 +140,11 @@ a:hover { text-decoration: none }
 
   footer{
 
-    height:80px;
+    height: 80px;
     background-color: rgb(16,115,219);
+    bottom: 0px;
+    position: fixed;
+    width: 100%;
     
   }
 
