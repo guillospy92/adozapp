@@ -20,8 +20,9 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
+Route::get('adoz/archivos/{sub}/{ano}',['as'=>'archivo','uses'=>'HomeController@archivo']);
 Route::get('adoz/clientes/{id}',['as'=>'clientes','uses'=>'HomeController@client']);
-Route::get('adoz/años/{sub}/{id}',['as'=>'anos','uses'=>'HomeController@anos']);
+Route::get('adoz/años/{sub}',['as'=>'anos','uses'=>'HomeController@anos']);
 Route::get('adoz/años/meses/{subarea}/{cliente}/{id}',['as'=>'meses','uses'=>'HomeController@meses']);
 Route::get('adoz/subareas/{sub}/{cliente}/{ano}/{mes}', ['as'=>'admin','uses'=>'HomeController@archivos']);
 Route::get('adoz/subareas/años/meses/{sub}/{ano}/{id}',['as'=>'clientess','uses'=>'HomeController@clientes']);

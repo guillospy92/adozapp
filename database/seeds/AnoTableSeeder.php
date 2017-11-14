@@ -13,20 +13,15 @@ class AnoTableSeeder extends Seeder
     public function run()
     {
         $data = array(
-            [
-                'nombre' => '2015',
+
+
+              [
+                'nombres' => '2017',
                 'estado'  => 1,
                 'created_at'=> new DateTime,
                 'updated_at'=> new DateTime
             ],
 
-              [
-                'nombres' => '2016',
-                'estado'  => 1,
-                'created_at'=> new DateTime,
-                'updated_at'=> new DateTime
-            ],
-                
 
         );
 

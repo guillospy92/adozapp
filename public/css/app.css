@@ -23,7 +23,7 @@ a:hover { text-decoration: none }
     margin-left:40px;
     margin-right: 5px;
     margin-top : 20px;
-    
+
   }
 
 
@@ -127,25 +127,25 @@ a:hover { text-decoration: none }
   .busqueda-avanzada {
     margin-left: 10px;
     border-radius: 255%;
-   
 
-  
+
+
   }
 
   .input-buscar{
     border-radius: 45px;
-    
+
     height: 40px;
   }
 
   footer{
 
-    height: 80px;
+    height: 24px;
     background-color: rgb(16,115,219);
     bottom: 0px;
     position: fixed;
     width: 100%;
-    
+
   }
 
 
@@ -196,6 +196,7 @@ a>.jstree-icon
 .global {
   height: 450px;
   overflow-y: scroll;
+  border-right: 3px #f7f7f7 solid;
 }
 #mensajes {
   height: auto;

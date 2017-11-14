@@ -33,7 +33,7 @@
         <li><a ondblclick="location.href='{{route('anos.index')}}'" href="#" onclick="return false">Años</a></li>
         <li><a ondblclick="location.href='{{route('esperados.index')}}'" href="#" onclick="return false">Documentos Esperados</a></li>
       </ul>
-        
+
       </li>
 
 
@@ -44,123 +44,9 @@
 
         @endif
 
-   @if(Auth::user()->tipo == 'Consejo Directivo')
-
-      <div id="jstree">
-    <ul>
-     <li>clinica altos de san vicente
-
-
-      <li class="jstree-open">Consejo Directivo
-        <ul>
-          @foreach($areas1 as $subarea)
-
-         <li><a ondblclick="location.href='{{route('clientes',$subarea->id)}}'" href="#" onclick="return false">{{$subarea->nombres}}</a>
-
-          <ul>
-          @foreach($subarea->clientes as $cliente)
-            <li><a ondblclick="location.href='{{route('anos',array($subarea->id,$cliente->id))}}'" href="#" onclick="return false">{{$cliente->nombre}}</a>
-            <ul>
-            @foreach($anos as $ano)
-              <li><a ondblclick="location.href='{{route('meses',array($subarea->id,$cliente->id,$ano->id))}}'" href="#" onclick="return false">{{$ano->nombre}}</a>
-              <ul>
-              @foreach($mes as $me)
-                <li><a ondblclick="location.href='{{route('admin',array($subarea->id,$cliente->id,$ano->id,$me->id))}}'" href="#" onclick="return false">{{$me->nombre}}</a>
-                  <ul>
-                @foreach($factura as $dat)
-                @if($dat->mouth_id == $me->id && $dat->subarea_id == $subarea->id && $dat->cliente_id == $cliente->id && $dat->ano_id == $ano->id )
-
-                    <li><a ondblclick="location.href='{{route('esperado',array($subarea->id,$cliente->id,$ano->id,$me->id,$dat->id))}}'" href="#" onclick="return false">{{$dat->nombre}}</a>
-                    @else
 
 
 
-                    @endif
-                    @endforeach
-               </ul>
-                </li>
-                @endforeach
-              </ul>
-              </li>
-              @endforeach
-            </ul>
-            </li>
-            @endforeach
-          </ul>
-
-          </li>
-
-          @endforeach
-        </ul>
-      </li>
-
-
-       </li>
-    </ul>
-  </div>
-
-
-   @endif
-
-
-   @if(Auth::user()->tipo == 'Gerencia General')
-
-
-
-     <div id="jstree">
-    <ul>
-     <li>clinica altos de san vicente
-
-
-      <li class="jstree-open">Gerencia General
-        <ul>
-          @foreach($areas2 as $subarea)
-
-         <li><a ondblclick="location.href='{{route('clientes',$subarea->id)}}'" href="#" onclick="return false">{{$subarea->nombres}}</a>
-
-          <ul>
-          @foreach($subarea->clientes as $cliente)
-            <li><a ondblclick="location.href='{{route('anos',array($subarea->id,$cliente->id))}}'" href="#" onclick="return false">{{$cliente->nombre}}</a>
-            <ul>
-            @foreach($anos as $ano)
-              <li><a ondblclick="location.href='{{route('meses',array($subarea->id,$cliente->id,$ano->id))}}'" href="#" onclick="return false">{{$ano->nombre}}</a>
-              <ul>
-              @foreach($mes as $me)
-                <li><a ondblclick="location.href='{{route('admin',array($subarea->id,$cliente->id,$ano->id,$me->id))}}'" href="#" onclick="return false">{{$me->nombre}}</a>
-                    <ul>
-                @foreach($factura as $dat)
-                @if($dat->mouth_id == $me->id && $dat->subarea_id == $subarea->id && $dat->cliente_id == $cliente->id && $dat->ano_id == $ano->id )
-
-                    <li><a ondblclick="location.href='{{route('esperado',array($subarea->id,$cliente->id,$ano->id,$me->id,$dat->id))}}'" href="#" onclick="return false">{{$dat->nombre}}</a>
-                    @else
-
-
-
-                    @endif
-                    @endforeach
-               </ul>
-                </li>
-                @endforeach
-              </ul>
-              </li>
-              @endforeach
-            </ul>
-            </li>
-            @endforeach
-          </ul>
-
-          </li>
-
-          @endforeach
-        </ul>
-      </li>
-
-
-       </li>
-    </ul>
-  </div>
-
-   @endif
 
 
    @if(Auth::user()->tipo == 'Direccion Administrativa')
@@ -174,38 +60,17 @@
         <ul>
           @foreach($areas3 as $subarea)
 
-          <li><a ondblclick="location.href='{{route('clientes',$subarea->id)}}'" href="#" onclick="return false">{{$subarea->nombres}}</a>
+          <li><a ondblclick="location.href='{{route('anos',$subarea->id)}}'" href="#" onclick="return false">{{$subarea->nombres}}</a>
 
-          <ul>
-          @foreach($subarea->clientes as $cliente)
-            <li><a ondblclick="location.href='{{route('anos',array($subarea->id,$cliente->id))}}'" href="#" onclick="return false">{{$cliente->nombre}}</a>
             <ul>
             @foreach($anos as $ano)
-              <li><a ondblclick="location.href='{{route('meses',array($subarea->id,$cliente->id,$ano->id))}}'" href="#" onclick="return false">{{$ano->nombre}}</a>
+              <li><a ondblclick="location.href='{{route('archivo',array($subarea->id,$ano->id))}}'" href="#" onclick="return false">{{$ano->nombre}}</a>
               <ul>
-              @foreach($mes as $me)
-                <li><a ondblclick="location.href='{{route('admin',array($subarea->id,$cliente->id,$ano->id,$me->id))}}'" href="#" onclick="return false">{{$me->nombre}}</a>
-               <ul>
-                @foreach($factura as $dat)
-                @if($dat->mouth_id == $me->id && $dat->subarea_id == $subarea->id && $dat->cliente_id == $cliente->id && $dat->ano_id == $ano->id )
 
-                    <li><a ondblclick="location.href='{{route('esperado',array($subarea->id,$cliente->id,$ano->id,$me->id,$dat->id))}}'" href="#" onclick="return false">{{$dat->nombre}}</a>
-                    @else
-
-
-
-                    @endif
-                    @endforeach
-               </ul>
-
-                </li>
-                @endforeach
               </ul>
               </li>
               @endforeach
-            </ul>
-            </li>
-            @endforeach
+
           </ul>
 
           </li>
@@ -221,65 +86,6 @@
 
    @endif
 
-   @if(Auth::user()->tipo == 'Direccion Medica')
-
-    <div id="jstree">
-    <ul>
-     <li>clinica altos de san vicente
-
-
-      <li class="jstree-open">Dirección Medica
-        <ul>
-          @foreach($areas4 as $subarea)
-
-         <li><a ondblclick="location.href='{{route('clientes',$subarea->id)}}'" href="#" onclick="return false">{{$subarea->nombres}}</a>
-
-          <ul>
-          @foreach($subarea->clientes as $cliente)
-            <li><a ondblclick="location.href='{{route('anos',array($subarea->id,$cliente->id))}}'" href="#" onclick="return false">{{$cliente->nombre}}</a>
-            <ul>
-            @foreach($anos as $ano)
-              <li><a ondblclick="location.href='{{route('meses',array($subarea->id,$cliente->id,$ano->id))}}'" href="#" onclick="return false">{{$ano->nombre}}</a>
-              <ul>
-              @foreach($mes as $me)
-                <li><a ondblclick="location.href='{{route('admin',array($subarea->id,$cliente->id,$ano->id,$me->id))}}'" href="#" onclick="return false">{{$me->nombre}}</a>
-
-                <ul>
-                @foreach($factura as $dat)
-                @if($dat->mouth_id == $me->id && $dat->subarea_id == $subarea->id && $dat->cliente_id == $cliente->id && $dat->ano_id == $ano->id )
-
-                    <li><a ondblclick="location.href='{{route('esperado',array($subarea->id,$cliente->id,$ano->id,$me->id,$dat->id))}}'" href="#" onclick="return false">{{$dat->nombre}}</a>
-                    @else
-
-
-
-                    @endif
-                    @endforeach
-               </ul>
-
-                </li>
-                @endforeach
-              </ul>
-              </li>
-              @endforeach
-            </ul>
-            </li>
-            @endforeach
-          </ul>
-
-          </li>
-
-          @endforeach
-        </ul>
-      </li>
-
-
-       </li>
-    </ul>
-  </div>
-
-
-   @endif
 
 
       </div>
@@ -292,24 +98,9 @@
       <br><br><br>
 
 
-       @if(Auth::user()->tipo == 'Consejo Directivo' || Auth::user()->tipo == 'admin')
-
-      @include('particiones.consejo')
 
 
-      @else
 
-      @endif
-
-
-       @if(Auth::user()->tipo == 'Gerencia General' || Auth::user()->tipo == 'admin')
-
-      @include('particiones.gerencia')
-
-
-      @else
-
-      @endif
 
        @if(Auth::user()->tipo == 'Direccion Administrativa' || Auth::user()->tipo == 'admin')
 
@@ -320,14 +111,7 @@
 
       @endif
 
-       @if(Auth::user()->tipo == 'Direccion Medica' || Auth::user()->tipo == 'admin')
 
-      @include('particiones.direccionmedica')
-
-
-      @else
-
-      @endif
 
 
 
