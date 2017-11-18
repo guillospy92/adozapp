@@ -16,7 +16,7 @@ use App\Esperado;
 use App\Documento;
 use Response;
 use Storage;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -56,12 +56,34 @@ class HomeController extends Controller {
   }
 
 
-  public function archivo($sub,$ano)
+  public function archivo($sub,$ano, Request $request)
   {
-
+    $archivos_db = Archivo::name($request->get('name'))->where('subarea_id',$sub)->where('ano_id',$ano)->orderBy('id', 'desc')->paginate(18);
     $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
     $anios = Ano::all();
-    return view('archivo',compact('areas3','anios','sub','ano'));
+    return view('archivo',compact('areas3','anios','sub','ano','archivos_db'));
+  }
+
+  public function excel(Request $request){
+ 
+    $file = $request->file('file');
+
+    if($file->getMimeType() == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+      Excel::load($file, function($reader) {
+        if(count($reader->get()) > 300){
+          \Session::flash('mesages','solo se permiten 300 registros por carga');
+          return redirect()->back();
+        }else{
+           foreach ($reader->get() as $i => $data) {
+            dd($data);
+          }
+        } 
+      });
+    }else{
+      \Session::flash('mesages','Esta Extension de archivos no esta permitida solo xlsx,xlsm,xltx');
+       return redirect()->back();
+    }
+ 
   }
 
 
@@ -92,16 +114,26 @@ class HomeController extends Controller {
 			 return view('archivos', compact('dato', 'areas1', 'areas2', 'areas3', 'areas4', 'archivo', 'anos', 'anomandado', 'client', 'meses', 'mesmandado', 'factura'));
 	 }
 
-	public function createarchivos(Request $request)
-	{
-   $path = public_path().'/uploads/';
-   $files = $request->file('file');
-   return $request->all();
-   foreach($files as $file){
-      $fileName = $file->getClientOriginalName();
-      $file->move($path, $fileName);
-  }
-	}
+
+    public function createarchivos(Request $request)
+    {
+       $path = public_path().'/uploads/';
+       $files = $request->file('file');
+       try{
+            $file_bd = strtotime("now").$files->getClientOriginalName();
+            $fileName = $files->getClientOriginalName();
+            $files->move($path, $file_bd);
+            $archivo = new Archivo();
+            $archivo->file = $file_bd;
+            $archivo->name = $fileName;
+            $archivo->subarea_id = $request->get('subarea');
+            $archivo->ano_id = $request->get('ano');
+            $archivo->save();
+            return $archivo;
+       }catch(Exception $e){
+          return "Tuvimos Problema con la carga de archivos";
+       }     
+   }
 
 
 

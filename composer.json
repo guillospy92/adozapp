@@ -8,7 +8,8 @@
 		"laravel/framework": "5.0.*",
 		"caouecs/laravel4-lang": "2.0.16",
 		"laravelcollective/html": "~5.0",
-		"barryvdh/laravel-dompdf": "0.6.*"
+		"barryvdh/laravel-dompdf": "0.6.*",
+		"maatwebsite/excel": "~2.1.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

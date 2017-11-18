@@ -6,16 +6,7 @@ class Ano extends Model {
 
 	protected $fillable = ['nombre', 'estado'];
 
-
-	public function mouths(){
-
-		return $this->belongsToMany('App\Mouth');
+	public function archivos(){
+		return $this->hasMany('App\Archivo');
 	}
-
-
-	public function clientes(){
-
-		return $this->belongsToMany('App\Cliente');
-	}
-
 }

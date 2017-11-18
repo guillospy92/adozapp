@@ -50,6 +50,7 @@ Route::get('obtenerjson/{id}',['uses'=>'HomeController@jsonfacid','as'=>'jsonid'
 Route::resource('enviaremail','MailController');
 Route::post('cargar_archivo_correo', 'MailController@store');
 Route::post('sendmail',['uses'=>'HomeController@sendd', 'as'=>'sendemail']);
+Route::post('adozapp/excel/',['uses'=>'HomeController@excel', 'as'=>'excel']);
 
 
 
