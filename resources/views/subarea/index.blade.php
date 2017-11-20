@@ -47,6 +47,7 @@
     @include('particiones.asociar')
     @include('particiones.crearano')
     @include('particiones.verano')
+      @include('particiones.versub')
     @include('particiones.actualizarano')
     @include('particiones.crearusuarios')
 
@@ -165,10 +166,17 @@
 
 <div class="row">
     <div class="row">
+    <div class="col-md-12">
+         <div class="pull-left">
+        <button data-toggle="modal" data-target="#crearsub" href="" class="btn btn-primary btn-sm">Nueva SubArea</button>
+    </div>
+    </div>
     <div class="box col-md-12">
+
     <div class="box-inner">
     <div class="box-header well" data-original-title="">
-        <h2><i class="glyphicon glyphicon-user"></i> Años</h2>
+
+        <h2><i class="glyphicon glyphicon-user"></i> Subareas</h2>
 
         <div class="box-icon">
             <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
@@ -177,6 +185,7 @@
             <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
         </div>
     </div>
+
     <div class="box-content">
     @if(Session::has('mesages'))
     <div class="alert alert-info" role="alert">
@@ -188,33 +197,29 @@
     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
     <thead>
     <tr>
-        <th>Año</th>
-        <th>estado</th>
+        <th>Subarea</th>
         <th>fecha</th>
         <th>acciones</th>
 
     </tr>
     </thead>
     <tbody>
-    @foreach($ano as $anos)
+    @foreach($Subarea_all as $Subarea_al)
     <tr>
-        <td class="">{{$anos->nombre}}</td>
-        <td class="center obtenerestado">{{$anos->estado}}</td>
-        <td class="center obtenerfecha">{{$anos->created_at}}</td>
+        <td class="obtener_nombre_sub">{{$Subarea_al->nombres}}</td>
+
+        <td class="obtenerfecha_sub">{{$Subarea_al->created_at}}</td>
 
         <td class="center">
-            <a data-toggle="modal" data-target="#mymodalverano" href=""  class="verano btn btn-success"  data-path="{{$anos->id}}">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                Ver
-            </a>
-            <a data-toggle="modal" data-target="#mymodalupdateano" href=""  class="actualizarano btn btn-info"  data-path="{{$anos->id}}">
+
+            <a data-toggle="modal" data-target="#mymodalversub" href=""  class="actualizarsub btn btn-info"  data-path="{{$Subarea_al}}">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Actualizar
             </a>
 
-            <a class="btn btn-danger" >
+            <a class="btn btn-danger">
 
-               {!!Form ::open(['route'=>['anos.destroy',$anos->id],'method'=>'DELETE'])!!}
+               {!!Form ::open(['route'=>['subareas.destroy',$Subarea_al->id],'method'=>'DELETE'])!!}
 
                 <button class=" btn-danger" type="submit" onclick="return confirm ('seguro que quuires elimiar este año')" >eliminar </button>
 
@@ -255,6 +260,33 @@
 
 
 </div><!--/.fluid-container-->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="crearsub">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">crear un nuevo año</h4>
+      <div class="modal-body">
+        {!!Form::open(['route'=>'subareas.store','method'=>'POST', 'id' => 'myFormSub'])!!}
+
+                     <div class="form-group has-feedback">
+                        {!!Form::label('inputEmail3', 'Subarea', array('class' => ''),array('for' => 'exampleInputEmail1'), array('placeholder' => 'nombre'))!!}
+                    {!!Form::text('nombres', null,['class'=>'form-control', 'placeholder'=>'Digite Subarea','required',])!!}
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <span class="help-block with-errors"></span>
+                    </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="submit">crear</button>
+         {!!Form::close()!!}
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- external javascript -->
 
@@ -310,6 +342,13 @@
     return patron.test(tecla_final);
 }
 
+
+$(".actualizarsub").click(function(){
+    var data = $(this).data('path');
+    $("#nombreversub").val(data.nombres);
+    $("#idsubarea").val(data.id);
+});
+
  $("#areas").change(function(event){
 
         $.get("subareas/"+event.target.value+"",function(response,subareas){
@@ -324,7 +363,7 @@
 
         });
     });
-    $('#myFormAno').validator()
+    $('#myFormSub').validator()
 
 </script>
 

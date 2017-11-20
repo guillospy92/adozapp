@@ -19,7 +19,7 @@
           @if(Auth::user()->tipo == 'admin')
            <div id="jstree">
             <ul>
-              <li>clinica altos de san vicente
+              <li>Dirección Administrativa
                   <li class="jstree-open">Rutas Administrador
                     <ul>
                       <li><a ondblclick="location.href='{{route('usuarios.index')}}'" href="#" onclick="return false">Usuarios</a></li>
@@ -35,7 +35,7 @@
           @if(Auth::user()->tipo == 'Direccion Administrativa')
              <div id="jstree">
               <ul>
-                <li>clinica altos de san vicente
+
                   <li class="jstree-open">Dirección Administrativa
                     <ul>
                       @foreach($areas3 as $subarea)
@@ -56,7 +56,7 @@
                      @endforeach
                   </ul>
                 </li>
-              </li>
+
             </ul>
           </div>
         @endif
@@ -113,17 +113,17 @@
                          <span class="text-center" style="font-size: 10px;">
                           {!! substr($archivo->name,0,23) !!}
                         </span>
-                     </p> 
-                  </a>               
+                     </p>
+                  </a>
                   </div>
-              @endforeach      
+              @endforeach
             </div>
            <div class="row">
              <div class="colmd-12" style="text-align: center">
                <p class="text-center">{!! $archivos_db->render() !!}</p>
              </div>
            </div>
-          </div>     
+          </div>
       </div>
     </div>
   </div>
@@ -170,7 +170,7 @@
              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
              <button type="submit" class="btn btn-primary">Enviar</button>
               <div class="pull-left">
-                <a class="btn btn-default" href="{{ asset('excel/indices.xlsx') }}" download>Descargar Excel</a>   
+                <a class="btn btn-default" href="{{ asset('excel/indices.xlsx') }}" download>Descargar Excel</a>
               </div>
            </div>
         {!! Form::close() !!}
@@ -204,19 +204,38 @@
       });
 
       Dropzone.options.imageUpload = {
-        maxFilesize    : 7,
+        maxFilesize    : 6,
         autoProcessQueue: false,
         maxFiles: 100,
         parallelUploads: 100,
         addRemoveLinks: true,
         acceptedFiles: ".pdf,",
+         //chunking : true,
         init: function() {
           var submitBtn = document.querySelector("#submit");
           imageUpload = this;
           submitBtn.addEventListener("click", function(e){
             imageUpload.processQueue();
           });
-         
+            this.on('error', function(file, errorMessage) {
+              console.log(file)
+                 $.toast({
+                    heading: 'Error con este archivo no se guardara ' + file.name,
+                    text: '{{Session::get('mesages')}}',
+                    position: 'bottom-right',
+                    hideAfter: false,
+                    icon: 'error'
+            });
+              if (file.accepted) {
+                alert("sdfsdfsdf");
+                      this.on("complete", function(file) {
+                     imageUpload.removeFile(file);
+                });
+              }
+            });
+
+
+
         }
       };
     });

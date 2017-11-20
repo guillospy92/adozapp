@@ -33,7 +33,10 @@ Route::Post('clientes/actualizando',['as'=>'actualizarcliente','uses'=>'Clientes
 Route::post('asociar',['as'=>'asociar','uses'=>'ClientesController@asociar']);
 Route::resource('anos','AnoController');
 Route::resource('archivos','ArchivoController');
+Route::resource('subareas','SubController');
+Route::Post('sub/actualizando',['as'=>'actualizarsub','uses'=>'SubController@actualizarsub']);
 Route::Post('ano/actualizando',['as'=>'actualizarano','uses'=>'AnoController@actualizarano']);
+
 Route::resource('usuarios','UserController');
 Route::Post('usuario/actualizando',['as'=>'actualizarusuario','uses'=>'UserController@actualizarusuario']);
 Route::get('index/metadata/{id}',['as'=>'metadata','uses'=>'HomeController@metadata']);
@@ -51,6 +54,7 @@ Route::resource('enviaremail','MailController');
 Route::post('cargar_archivo_correo', 'MailController@store');
 Route::post('sendmail',['uses'=>'HomeController@sendd', 'as'=>'sendemail']);
 Route::post('adozapp/excel/',['uses'=>'HomeController@excel', 'as'=>'excel']);
+
 
 
 

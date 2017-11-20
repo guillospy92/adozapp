@@ -14,35 +14,12 @@ class AreaTableSeeder extends Seeder
     {
         $data = array(
             [
-                'nombres' => 'Consejo Directivo',
+                'id' => 1,
+                'nombres' => 'Area Administradora',
                 'estado'  => 1,
                 'created_at'=> new DateTime,
                 'updated_at'=> new DateTime
             ],
-
-              [
-                'nombres' => 'Gerencia General',
-                'estado'  => 1,
-                'created_at'=> new DateTime,
-                'updated_at'=> new DateTime
-            ],
-
-              [
-                'nombres' => 'Dirección Administrativa',
-                'estado'  => 1,
-                'created_at'=> new DateTime,
-                'updated_at'=> new DateTime
-            ],
-
-              [
-                'nombres' => 'Dirección Medica',
-                'estado'  => 1,
-                'created_at'=> new DateTime,
-                'updated_at'=> new DateTime
-            ],
-
-
-
 
         );
 

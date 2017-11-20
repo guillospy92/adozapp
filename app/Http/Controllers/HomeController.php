@@ -65,7 +65,7 @@ class HomeController extends Controller {
   }
 
   public function excel(Request $request){
- 
+
     $file = $request->file('file');
 
     if($file->getMimeType() == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
@@ -77,13 +77,13 @@ class HomeController extends Controller {
            foreach ($reader->get() as $i => $data) {
             dd($data);
           }
-        } 
+        }
       });
     }else{
       \Session::flash('mesages','Esta Extension de archivos no esta permitida solo xlsx,xlsm,xltx');
        return redirect()->back();
     }
- 
+
   }
 
 
@@ -117,7 +117,9 @@ class HomeController extends Controller {
 
     public function createarchivos(Request $request)
     {
+
        $path = public_path().'/uploads/';
+
        $files = $request->file('file');
        try{
             $file_bd = strtotime("now").$files->getClientOriginalName();
@@ -132,7 +134,7 @@ class HomeController extends Controller {
             return $archivo;
        }catch(Exception $e){
           return "Tuvimos Problema con la carga de archivos";
-       }     
+       }
    }
 
 

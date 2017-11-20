@@ -4,7 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subarea extends Model {
 
-	
+
+protected $fillable = ['nombres', 'estado','area_id'];
+
 	public function archivos(){
 
 		return $this->hasMany('App\Archivo');
@@ -28,6 +30,6 @@ class Subarea extends Model {
 		return Subarea::where('area_id','=',$id)->get();
 	}
 
-	
+
 
 }

@@ -22,16 +22,16 @@
 
          <div id="jstree">
     <ul>
-     <li>clinica altos de san vicente
+     <li>Dirección Administrativa
 
 
       <li class="jstree-open">Rutas Administrador
 
       <ul>
         <li><a ondblclick="location.href='{{route('usuarios.index')}}'" href="#" onclick="return false">Usuarios</a></li>
-        <li><a ondblclick="location.href='{{route('clientes.index')}}'" href="#" onclick="return false">Clientes</a></li>
+        <li><a ondblclick="location.href='{{route('subareas.index')}}'" href="#" onclick="return false">Subareas</a></li>
         <li><a ondblclick="location.href='{{route('anos.index')}}'" href="#" onclick="return false">Años</a></li>
-        <li><a ondblclick="location.href='{{route('esperados.index')}}'" href="#" onclick="return false">Documentos Esperados</a></li>
+        <!--<li><a ondblclick="location.href='{{route('esperados.index')}}'" href="#" onclick="return false">Documentos Esperados</a></li> !-->
       </ul>
 
       </li>
@@ -53,7 +53,7 @@
 
     <div id="jstree">
     <ul>
-     <li>clinica altos de san vicente
+
 
 
       <li class="jstree-open">Dirección Administrativa
@@ -80,7 +80,7 @@
       </li>
 
 
-       </li>
+
     </ul>
   </div>
 
