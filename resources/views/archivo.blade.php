@@ -202,40 +202,53 @@
         $('#jstree').jstree('select_node', 'child_node_1');
         $.jstree.reference('#jstree').select_node('child_node_1');
       });
-
+      var action = 0
       Dropzone.options.imageUpload = {
-        maxFilesize    : 6,
+        maxFilesize : 8,
         autoProcessQueue: false,
         maxFiles: 100,
-        parallelUploads: 100,
+        parallelUploads: 1,
         addRemoveLinks: true,
-        acceptedFiles: ".pdf,",
-         //chunking : true,
+       // acceptedFiles: ".pdf,",
         init: function() {
           var submitBtn = document.querySelector("#submit");
           imageUpload = this;
           submitBtn.addEventListener("click", function(e){
             imageUpload.processQueue();
           });
-            this.on('error', function(file, errorMessage) {
-              console.log(file)
+           this.on('error', function(file, errorMessage) {
                  $.toast({
-                    heading: 'Error con este archivo no se guardara ' + file.name,
-                    text: '{{Session::get('mesages')}}',
+                    heading: 'El archivo con el nombre ' + file.name,
+                    text: 'Se Elimino ya que Pesa mas de 8MB',
                     position: 'bottom-right',
                     hideAfter: false,
                     icon: 'error'
+                  });
+                    imageUpload.removeFile(file)
+                
             });
-              if (file.accepted) {
-                alert("sdfsdfsdf");
-                      this.on("complete", function(file) {
-                     imageUpload.removeFile(file);
-                });
-              }
+             this.on('success',function(file){
+              imageUpload.options.autoProcessQueue = true;
+  
             });
-
-
-
+          
+            if(action == 0){
+                this.on('queuecomplete',function(file){
+                  console.log(file);
+               $.toast({
+                  heading: 'Guardado Con Exito',
+                  text: 'Rediriegiendo a la vista de ordenanzas',
+                  hideAfter: 4000,
+                  icon: 'success',
+                  position: 'bottom-right',
+                  loader: true,        // Change it to false to disable loader
+                  loaderBg: '#9EC600'  // To change the background
+              });
+               
+           });
+            }else{
+             
+            }
         }
       };
     });
