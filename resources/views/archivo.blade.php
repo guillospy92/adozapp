@@ -9,6 +9,7 @@
     <link href="{{asset('css/dropzone.css')}}" rel="stylesheet">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <link href="{{asset('css/jquery.toast.css')}}" rel="stylesheet">
+     <link href="{{asset('css/bootstrap-datepicker3.min.css')}}" rel="stylesheet">
   </head>
   <body>
   @include('particiones/navview')
@@ -63,6 +64,7 @@
       </div>
     </div>
     <div class="col-md-9 ">
+
       <div class="pull-right" style="margin-bottom: 5px" >
         <button value="1" class="btn btn-sm btn-primary" id="mostrar-info">Subir archivos</button>
         <button class="btn btn-sm btn-primary" onclick="ExcelUpload()">Cargar Indices</button>
@@ -199,17 +201,54 @@
                 <input class="form-control" name="numero" type="text" id="exampleInputFile" required="" >
               </div>
                <div class="form-group">
-                <label for="exampleInputFile">Fecha De Ordenanza</label>
-                <input class="form-control" name="fecha" type="text" id="exampleInputFile" required="" >
+                <label for="exampleInputFile">Fecha De Publicación</label>
+                <div class="input-group date datepicker" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                  <input type="text" name="fecha" class="form-control">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                  </div>
+                 </div>
               </div>
-
            </div>
            <div class="modal-footer">
              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
              <button type="submit" class="btn btn-primary">Enviar</button>
-
            </div>
         {!! Form::close() !!}
+       </div>
+     </div>
+   </div>
+       <div class="modal fade bs-example-modal-lg" id="error-excel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+     <div class="modal-dialog" role="">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <h4 class="modal-title" id="myModalLabel">Estos Archivos no se Subieron ya que no existen en la BD</h4>
+         </div>
+           <div class="modal-body">
+           @if($errors != 1)
+            @if(count($errors) != 0)
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <th>Titulo de Ordenanza</th>
+                  <th>Numero de Ordenanza</th>
+                </thead>
+                <tbody>
+                    @foreach($errors as $i => $error)
+                  
+                        <tr>
+                         <td>{{$error[1]}}</td>
+                         <td>{{$error[0]}}</td> 
+                        </tr>
+                     @endforeach
+                </tbody>
+              </table>
+            @endif     
+          @endif
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+           </div>
        </div>
      </div>
    </div>
@@ -218,6 +257,8 @@
   <script src="{{ asset('js/jstree.min.js') }}"></script>
   <script src="{{asset('admin/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
   <script src="{{ asset('js/dropzone.js') }}"></script>
+  <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap-datepicker.es.min.js') }}"></script>
   <script src="{{ asset('js/jquery.toast.js') }}"></script>
 
   <script>
@@ -230,8 +271,17 @@
           icon: 'error'
         })
   @endif
+     @if($errors != 1)
+      @if(count($errors) != 0)
+        $('#error-excel').modal('show');
+      @endif     
+    @endif
     $(function () {
-      // 6 create an instance when the DOM is ready
+      $.fn.datepicker.defaults.language = 'es';
+      $('.datepicker').datepicker({
+        endDate: new Date(),
+        todayHighlight: true,
+      });
       $('#jstree').jstree();
       $('button').on('click', function () {
         $('#jstree').jstree(true).select_node('child_node_1');

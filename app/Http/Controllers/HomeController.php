@@ -26,6 +26,7 @@ class HomeController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('auth');
+    $this->errors = [];
 
 	}
 
@@ -58,10 +59,15 @@ class HomeController extends Controller {
 
   public function archivo($sub,$ano, Request $request)
   {
+    $errors = 1;
+    if($request->has('errors')){
+       $errors = $request->get('errors');
+
+    }
     $archivos_db = Archivo::name($request->get('name'))->where('subarea_id',$sub)->where('ano_id',$ano)->orderBy('id', 'desc')->paginate(18);
     $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
     $anios = Ano::all();
-    return view('archivo',compact('areas3','anios','sub','ano','archivos_db'));
+    return view('archivo',compact('areas3','anios','sub','ano','archivos_db','errors'));
   }
 
   public function excel(Request $request){
@@ -69,65 +75,50 @@ class HomeController extends Controller {
     $file = $request->file('file');
 
     if($file->getMimeType() == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
-      Excel::load($file, function($reader) {
+      Excel::load($file, function($reader)use($request) {
         if(count($reader->get()) > 300){
           \Session::flash('mesages','solo se permiten 300 registros por carga');
           return redirect()->back();
         }else{
            foreach ($reader->get() as $i => $data) {
-            dd($data);
-          }
+
+            $archivo = Archivo::where('subarea_id',$request->get('subarea'))
+              ->where('ano_id',$request->get('ano'))
+              ->where('name',$data->numero_de_ordenanza)
+              ->first();
+            if($archivo){
+              $archivo->ordenanza = $data->titulo_ordenanza;
+              $archivo->fecha = $data->fecha;
+              $archivo->save();
+            }else{
+              if($data->numero_de_ordenanza || $data->titulo_ordenanza || $data->fecha ){
+                array_push( $this->errors,[$data->numero_de_ordenanza,$data->titulo_ordenanza,$data->fecha]);
+              }   
+            }
+          } 
         }
       });
+     
     }else{
       \Session::flash('mesages','Esta Extension de archivos no esta permitida solo xlsx,xlsm,xltx');
        return redirect()->back();
     }
 
+    return redirect()->route('archivo',['sub' => $request->get('subarea'), 'ano' => $request->get('ano'),'errors' => $this->errors]);
   }
-
-
-
-
-
-	public function archivos(Request $request, $sub, $cliente, $ano, $id) {
-
-					 $areas1 = Subarea::with('clientes')->paginate(100)->where('area_id', 1);
-					 $areas2 = Subarea::with('clientes')->paginate(100)->where('area_id', 2);
-					 $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id', 3);
-					 $areas4 = Subarea::with('clientes')->paginate(100)->where('area_id', 4);
-					 $meses = Mouth::all();
-					 $anos = Ano::all();
-					 $anomandado = $ano;
-					 $archivo = $sub;
-					 $client = $cliente;
-					 $mesmandado = $id;
-					 $factura = Factura::paginate(100);
-					 $dato = Factura::name($request->get('name'))->orderBy('created_at', 'desc')
-													 ->where('subarea_id', $archivo)
-													 ->where('cliente_id', $client)->where('ano_id', $anomandado)
-													 ->where('mouth_id', $mesmandado)->paginate(12);
-					 if ($request->ajax()) {
-							 return Response()->json(view('paginacion')->with(compact('dato','archivo','client','anomandado','mesmandado'))->render());
-					 }
-
-			 return view('archivos', compact('dato', 'areas1', 'areas2', 'areas3', 'areas4', 'archivo', 'anos', 'anomandado', 'client', 'meses', 'mesmandado', 'factura'));
-	 }
-
 
     public function createarchivos(Request $request)
     {
 
        $path = public_path().'/uploads/';
-
        $files = $request->file('file');
+       list($names, $extension) = explode('.', $files->getClientOriginalName());
        try{
             $file_bd = strtotime("now").$files->getClientOriginalName();
-            $fileName = $files->getClientOriginalName();
             $files->move($path, $file_bd);
             $archivo = new Archivo();
             $archivo->file = $file_bd;
-            $archivo->name = $fileName;
+            $archivo->name = $names;
             $archivo->subarea_id = $request->get('subarea');
             $archivo->ano_id = $request->get('ano');
             $archivo->save();
@@ -136,52 +127,6 @@ class HomeController extends Controller {
           return "Tuvimos Problema con la carga de archivos";
        }
    }
-
-
-
-	public function esperado(Request $request, $sub,$cliente,$ano,$mes,$factu){
-
-    {
-      $areas1 = Subarea::with('clientes')->paginate(100)->where('area_id',1);
-      $areas2 = Subarea::with('clientes')->paginate(100)->where('area_id',2);
-      $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
-      $areas4 = Subarea::with('clientes')->paginate(100)->where('area_id',4);
-      $meses = Mouth::all();
-      $anos = Ano::all();
-      $anomandado = $ano;
-      $archivo = $sub;
-      $client = $cliente;
-      $mesmandado=$mes;
-      $fac= $factu;
-      $factura = Factura::all();
-      $esperado = Cliente::find($client)->esperados;
-      $documentos = Documento::where('cliente_id',$cliente)->where('factura_id',$fac)->where('subarea_id',$sub)->get();
-      $docu = Documento::where('factura_id',$factu)->count();
-
-
-      return view('esperado',compact('dato','areas1','areas2','areas3','areas4',
-        'archivo','anos','anomandado','client','meses','mesmandado','factura','esperado','fac','documentos','docu'));
-  }
-
-
-
-	}
-
-
-  public function nuevafactura(Request $request){
-
-    $subarea=$request->get('subarea_id');
-    $cliente=$request->get('cliente_id');
-    $ano=$request->get('ano_id');
-    $mes=$request->get('mouth_id');
-    $factura = new Factura($request->all());
-    $factura->save();
-   return \Redirect::route('admin',array($subarea,$cliente,$ano,$mes));
-
-
-
-  }
-
 
 	public function reporte(Request $request){
 
