@@ -78,7 +78,7 @@
                 </div>
             </div>
           <button type="submit" class="btn btn-default">Enviar</button>
-           <button type="button" class="btn btn-default">Busqueda Avanzada</button>
+           <button data-toggle="modal" data-target="#search-advanze" type="button" class="btn btn-default">Busqueda Avanzada</button>
          {!! Form::close() !!}
        </div>
        <div class="divider" style="width: 100%;height: 2px;border-bottom: 1px #9c9696 solid;float: right;"></div>
@@ -177,6 +177,42 @@
        </div>
      </div>
    </div>
+
+
+      <div class="modal fade bs-example-modal-lg" id="search-advanze" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+     <div class="modal-dialog" role="">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <h4 class="modal-title" id="myModalLabel">Busqueda Avanzada</h4>
+         </div>
+        {!! Form::open(['route'=> 'excel','method'=> 'post', 'files'=>'true',]) !!}
+           <div class="modal-body">
+              <div class="form-group">
+                <label for="exampleInputFile">Titulo De Ordenanza</label>
+                <input class="form-control" name="titulo" type="text" id="exampleInputFile">
+                <input type="hidden" value="{{ $ano }}" name="ano">
+                <input type="hidden" value="{{ $sub }}" name="subarea">
+              </div>
+               <div class="form-group">
+                <label for="exampleInputFile">Numero De Ordenanza</label>
+                <input class="form-control" name="numero" type="text" id="exampleInputFile" required="" >
+              </div>
+               <div class="form-group">
+                <label for="exampleInputFile">Fecha De Ordenanza</label>
+                <input class="form-control" name="fecha" type="text" id="exampleInputFile" required="" >
+              </div>
+
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+             <button type="submit" class="btn btn-primary">Enviar</button>
+
+           </div>
+        {!! Form::close() !!}
+       </div>
+     </div>
+   </div>
   </body>
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="{{ asset('js/jstree.min.js') }}"></script>
@@ -209,7 +245,7 @@
         maxFiles: 100,
         parallelUploads: 1,
         addRemoveLinks: true,
-       // acceptedFiles: ".pdf,",
+        acceptedFiles: ".pdf,",
         init: function() {
           var submitBtn = document.querySelector("#submit");
           imageUpload = this;
@@ -224,17 +260,21 @@
                     hideAfter: false,
                     icon: 'error'
                   });
-                    imageUpload.removeFile(file)
-                
+                    imageUpload.removeFile(file);
+
             });
-             this.on('success',function(file){
+            this.on('success',function(file){
               imageUpload.options.autoProcessQueue = true;
-  
             });
-          
-            if(action == 0){
-                this.on('queuecomplete',function(file){
-                  console.log(file);
+
+            this.on("processing", function() {
+               processing = true;
+            });
+
+           this.on('queuecomplete',function(file,res){
+
+              if(true == processing){
+
                $.toast({
                   heading: 'Guardado Con Exito',
                   text: 'Rediriegiendo a la vista de ordenanzas',
@@ -244,11 +284,13 @@
                   loader: true,        // Change it to false to disable loader
                   loaderBg: '#9EC600'  // To change the background
               });
-               
-           });
-            }else{
-             
+               setTimeout(function(){
+                 location.href ="{{ route('archivo',[$sub,$ano]) }}";
+
+                }, 4000);
             }
+           });
+
         }
       };
     });
