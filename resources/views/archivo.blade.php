@@ -188,7 +188,7 @@
            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
            <h4 class="modal-title" id="myModalLabel">Busqueda Avanzada</h4>
          </div>
-        {!! Form::open(['route'=> 'excel','method'=> 'post', 'files'=>'true',]) !!}
+        {!! Form::open(['route'=> 'busquedaavanzada','method'=> 'post']) !!}
            <div class="modal-body">
               <div class="form-group">
                 <label for="exampleInputFile">Titulo De Ordenanza</label>
@@ -198,7 +198,7 @@
               </div>
                <div class="form-group">
                 <label for="exampleInputFile">Numero De Ordenanza</label>
-                <input class="form-control" name="numero" type="text" id="exampleInputFile" required="" >
+                <input class="form-control" name="numero" type="text" id="exampleInputFile"  >
               </div>
                <div class="form-group">
                 <label for="exampleInputFile">Fecha De Publicación</label>

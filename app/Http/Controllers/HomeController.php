@@ -128,88 +128,29 @@ class HomeController extends Controller {
        }
    }
 
-	public function reporte(Request $request){
 
-    $subarea = $request->get('nombres');
-    $area = $request->get('id');
-    $areaget = Area::where('id',$area)->first();
-    $subareaget = Subarea::where('id',$subarea)->first();
-
-
-		$date = date('Y-m-d');
-		$time = time();
-        $invoice = "2222";
-        $view =  \View::make('reporte', compact( 'date','time', 'invoice','areaget','subareaget'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        return $pdf->stream('invoice');
-
-	}
 
 
   public function busquedaavanzada(Request $request){
 
-    $word = $request->get('nombre');
-    $date = $request->get('date');
-    $date1 = $request->get('date2');
+    $titulo = $request->get('titulo');
+    $numero = $request->get('numero');
+    $fecha = new Carbon($request->get('fecha'));
+    $subarea = $request->get('subarea');
+    $anios = $request->get('ano');
+    $archivo = Archivo::where('name','LIKE','%'.$numero.'%')->orwhere(function($q) use($request){
+      if($request->has('fecha')){
+        $q->where('fecha',$fecha);
+      }
+    })->orwhere(function($q)use($titulo){
+      if($titulo){
+        $q->where('ordenanza','LIKE','%'.$titulo.'%');
+      }
+    })->get();
+     
 
-
-
-    if($word == '' ){
-
-      $result = Factura::where('created_at', 'LIKE', '%'.$date.'%')->get();
-      $documento = Documento::where('created_at', 'LIKE', '%'.$date.'%')->get();
-
-
-    }
-
-
-     if($date == '' ){
-
-      $result = Factura::where('nombre', 'LIKE', '%'.$word.'%')->get();
-      $documento = Documento::where('file', 'LIKE', '%'.$word.'%')->orwhere('tipo', 'LIKE', '%'.$word.'%')->get();
-
-
-    }
-
-
-
-
-    if($date != '' &&  $word !='' ){
-
-      $result = Factura::where('created_at', 'LIKE', '%'.$date.'%')->orwhere('nombre', 'LIKE', '%'.$word.'%')->get();
-      $documento = Documento::where('file', 'LIKE', '%'.$word.'%')->orwhere('tipo', 'LIKE', '%'.$word.'%')
-      ->orwhere('created_at', 'LIKE', '%'.$date.'%')
-      ->get();
-
-    }
-
-    if($word == '' && $date != '' && $date1 != ''){
-
-       $result = Factura::whereBetween('created_at', array($date, $date1))->get();
-       $documento = Documento::whereBetween('created_at', array($date, $date1))->get();
-
-    }
-
-      if($word != '' && $date != '' && $date1 != ''){
-
-       $result = Factura::where('created_at', 'LIKE', '%'.$date.'%')->orwhere('nombre', 'LIKE', '%'.$word.'%')->get();
-       $documento = Documento::whereBetween('created_at', array($date, $date1))->get();
-
-    }
-
-
-    $maxdocu = count($documento);
-    $maxfactu = count($result);
-
-
+    dd($archivo);
    return view('resultado',compact('result','documento','maxdocu','maxfactu'));
-
-
-
-
-
-
   }
 
 
