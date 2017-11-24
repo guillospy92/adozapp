@@ -49,14 +49,14 @@
 
 
 
-   @if(Auth::user()->tipo == 'Direccion Administrativa')
+   @if(Auth::user()->tipo == 'Area Administradora')
 
     <div id="jstree">
     <ul>
 
 
 
-      <li class="jstree-open">Dirección Administrativa
+      <li class="jstree-open">Area Administradora
         <ul>
           @foreach($areas3 as $subarea)
 
@@ -102,7 +102,7 @@
 
 
 
-       @if(Auth::user()->tipo == 'Direccion Administrativa' || Auth::user()->tipo == 'admin')
+       @if(Auth::user()->tipo == 'Area Administradora' || Auth::user()->tipo == 'admin')
 
       @include('particiones.direccionadministrativa')
 

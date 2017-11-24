@@ -26,18 +26,18 @@
                       <li><a ondblclick="location.href='{{route('usuarios.index')}}'" href="#" onclick="return false">Usuarios</a></li>
                       <li><a ondblclick="location.href='{{route('clientes.index')}}'" href="#" onclick="return false">Clientes</a></li>
                       <li><a ondblclick="location.href='{{route('anos.index')}}'" href="#" onclick="return false">Años</a></li>
-                      <li><a ondblclick="location.href='{{route('esperados.index')}}'" href="#" onclick="return false">Documentos Esperados</a></li>
+
                     </ul>
                   </li>
                </li>
             </ul>
             </div>
           @endif
-          @if(Auth::user()->tipo == 'Direccion Administrativa')
+          @if(Auth::user()->tipo == 'Area Administradora')
              <div id="jstree">
               <ul>
 
-                  <li class="jstree-open">Dirección Administrativa
+                  <li class="jstree-open">Area Administradora
                     <ul>
                       @foreach($areas3 as $subarea)
                         @if($subarea->id == $sub) <li class="jstree-open"> @else <li> @endif
@@ -235,15 +235,15 @@
                 </thead>
                 <tbody>
                     @foreach($errors as $i => $error)
-                  
+
                         <tr>
                          <td>{{$error[1]}}</td>
-                         <td>{{$error[0]}}</td> 
+                         <td>{{$error[0]}}</td>
                         </tr>
                      @endforeach
                 </tbody>
               </table>
-            @endif     
+            @endif
           @endif
            </div>
            <div class="modal-footer">
@@ -274,7 +274,7 @@
      @if($errors != 1)
       @if(count($errors) != 0)
         $('#error-excel').modal('show');
-      @endif     
+      @endif
     @endif
     $(function () {
       $.fn.datepicker.defaults.language = 'es';

@@ -37,13 +37,11 @@ class HomeController extends Controller {
 
 		$areas1 =	Subarea::with('clientes')->paginate(100)->where('area_id',1);
     $areas2 = Subarea::with('clientes')->paginate(100)->where('area_id',2);
-    $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
+    $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',1);
     $areas4 = Subarea::with('clientes')->paginate(100)->where('area_id',4);
     $anos = Ano::all();
-		$area1 = Area::find(1)->subareas;
-		$area2 = Area::find(2)->subareas;
-		$area3 = Area::find(3)->subareas;
-		$area4 = Area::find(4)->subareas;
+		$area3 = Area::find(1)->subareas;
+
     $ano= Ano::all();
 		return view('home',compact('anos','area','area1','area2','area3','area4', 'areas1','areas2','areas3','areas4','mes','factura'));
 	}
@@ -51,7 +49,7 @@ class HomeController extends Controller {
 
   public function anos($sub)
   {
-    $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
+    $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',1);
     $anos = Ano::all();
     return view('anos',compact('areas3','anos','sub'));
   }
@@ -65,7 +63,7 @@ class HomeController extends Controller {
 
     }
     $archivos_db = Archivo::name($request->get('name'))->where('subarea_id',$sub)->where('ano_id',$ano)->orderBy('id', 'desc')->paginate(18);
-    $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',3);
+    $areas3 = Subarea::with('clientes')->paginate(100)->where('area_id',1);
     $anios = Ano::all();
     return view('archivo',compact('areas3','anios','sub','ano','archivos_db','errors'));
   }
@@ -93,12 +91,12 @@ class HomeController extends Controller {
             }else{
               if($data->numero_de_ordenanza || $data->titulo_ordenanza || $data->fecha ){
                 array_push( $this->errors,[$data->numero_de_ordenanza,$data->titulo_ordenanza,$data->fecha]);
-              }   
+              }
             }
-          } 
+          }
         }
       });
-     
+
     }else{
       \Session::flash('mesages','Esta Extension de archivos no esta permitida solo xlsx,xlsm,xltx');
        return redirect()->back();
@@ -147,10 +145,8 @@ class HomeController extends Controller {
         $q->where('ordenanza','LIKE','%'.$titulo.'%');
       }
     })->get();
-     
 
-    dd($archivo);
-   return view('resultado',compact('result','documento','maxdocu','maxfactu'));
+   return view('resultado',compact('archivo'));
   }
 
 

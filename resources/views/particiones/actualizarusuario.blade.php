@@ -9,7 +9,7 @@
         {!!Form::open(['route'=>'actualizarusuario','method'=>'POST'])!!}
 
               {!!Form::hidden('id', null,['id'=>'idusuarios','class'=>'form-control', 'placeholder'=>'Nombres'])!!}
-                    
+
                      <div class="form-group">
                         {!!Form::label('inputEmail3', 'Nombres', array('class' => ''),array('for' => 'exampleInputEmail1'), array('placeholder' => 'nombre'))!!}
                     {!!Form::text('nombres', null,['id'=>'actualizarnombres','class'=>'form-control', 'placeholder'=>'Nombres'])!!}
@@ -45,31 +45,24 @@
                     {!!Form::text('direccion', null,['id'=>'actualizardireccion','class'=>'form-control', 'placeholder'=>'Direccion'])!!}
                     </div>
 
-                    <div class="form-group">
-                        {!!Form::label('inputEmail3', 'Tipo',
-                         array('class' => ''),array('for' => 'exampleInputEmail1'), array('placeholder' => 'nombre'))!!}
-                        {!!Form::select('tipo', array(
-                        'opcion' => array('Consejo Directivo' => 'Consejo Directivo','Gerencia General'=>'Gerencia General','Direccion Administrativa'=>'Direccion Administrativa','Direccion Medica'=>'Direccion Medica','admin'=>'admin'),
-                       
-                        ),null,array('id'=>'actualizartipo','class'=>'form-control'));!!}
-                    </div>
+
 
                        <div class="form-group">
                         {!!Form::label('inputEmail3', 'Estado',
                          array('class' => ''),array('for' => 'exampleInputEmail1'), array('placeholder' => 'nombre'))!!}
                         {!!Form::select('estado', array(
                         'opcion' => array('A' => 'activo','I'=>'inactivo'),
-                       
+
                         ),null,array('id'=>'actualizarestado','class'=>'form-control'));!!}
                     </div>
 
-                   
-                    
-                
 
 
-                
-               
+
+
+
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

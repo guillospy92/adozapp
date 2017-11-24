@@ -36,11 +36,11 @@
 
 
         @endif
-          @if(Auth::user()->tipo == 'Direccion Administrativa')
+          @if(Auth::user()->tipo == 'Area Administradora')
              <div id="jstree">
               <ul>
-                <li>Dirección Administrativa
-                  <li class="jstree-open">Dirección Administrativa
+
+                  <li class="jstree-open">Area Administradora
                     <ul>
                       @foreach($areas3 as $subarea)
                         @if($subarea->id == $sub) <li class="jstree-open"> @else <li> @endif
@@ -60,7 +60,7 @@
                      @endforeach
                   </ul>
                 </li>
-              </li>
+
             </ul>
           </div>
         @endif

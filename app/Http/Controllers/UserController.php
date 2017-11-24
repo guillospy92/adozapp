@@ -32,7 +32,6 @@ class UserController extends Controller {
         $usu->email = $request->get('email');
         if($request->get('password') != "") $usu->password = $request->get('password');
         $usu->telefono = $request->get('telefono');
-        $usu->tipo = $request->get('tipo');
         $usu->direccion = $request->get('direccion');
         $usu->estado = $request->get('estado');
 
@@ -74,6 +73,8 @@ class UserController extends Controller {
 	public function store(Request $request)
 	{
 		$user = new User($request->all());
+		$user->tipo = "Area Administradora";
+
 		$user->save();
 		\Session::flash('mesages', $user->nombres . '...... este usuario fue creado ');
 		return \Redirect::route('usuarios.index');
