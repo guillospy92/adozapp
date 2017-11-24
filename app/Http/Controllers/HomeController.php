@@ -136,12 +136,18 @@ class HomeController extends Controller {
     $fecha = new Carbon($request->get('fecha'));
     $subarea = $request->get('subarea');
     $anios = $request->get('ano');
-    $archivo = Archivo::where('name','LIKE','%'.$numero.'%')->orwhere(function($q) use($request){
+    $archivo = Archivo::where(function($q)use($numero){
+      if($numero){
+         $q->where('name','LIKE','%'.$numero.'%');
+      }
+    })->orwhere(function($q) use($request){
       if($request->has('fecha')){
+        $q->whereNotNull('fecha');
         $q->where('fecha',$fecha);
       }
     })->orwhere(function($q)use($titulo){
       if($titulo){
+        $q->whereNotNull('ordenanza');
         $q->where('ordenanza','LIKE','%'.$titulo.'%');
       }
     })->get();

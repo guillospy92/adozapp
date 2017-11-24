@@ -69,3 +69,5 @@ Route::post('adozapp/excel/',['uses'=>'HomeController@excel', 'as'=>'excel']);
 
 
 
+
+
